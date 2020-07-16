@@ -27,13 +27,13 @@ function main(el, service, imEntity, state, config) {
     });
 
   */
-	var graphType = 'Graph';
-	var iframeSrc =
+	let graphType = 'Graph';
+	const iframeSrc =
 		'http://www.esyn.org/app.php?embedded=true&publishedid=249&type=';
-	var rootDiv = document.createElement('div');
+	const rootDiv = document.createElement('div');
 	rootDiv.className = 'rootContainer';
 
-	var iframe = document.createElement('iframe');
+	const iframe = document.createElement('iframe');
 	iframe.id = 'frame';
 	iframe.className = 'seamless';
 	iframe.scrolling = 'no';
@@ -41,6 +41,16 @@ function main(el, service, imEntity, state, config) {
 	iframe.style.height = '97%';
 	iframe.src = iframeSrc + graphType;
 	rootDiv.appendChild(iframe);
+
+	const button = document.createElement('button');
+	button.innerHTML = 'Change Graph Type';
+
+	rootDiv.appendChild(button);
+
+	button.addEventListener('click', function() {
+		graphType = graphType == 'Graph' ? 'PetriNet' : 'Graph';
+		document.getElementById('frame').src = iframeSrc + graphType;
+	});
 
 	document.getElementById('yourDiv').appendChild(rootDiv);
 }
