@@ -3,7 +3,7 @@
 
 // make sure to export main, with the signature
 function main(el, service, imEntity, state, config) {
-  if (!state) state = {};
+	if (!state) state = {};
 	if (!el || !service || !imEntity || !state || !config) {
 		throw new Error('Call main with correct signature');
 	}
@@ -27,11 +27,22 @@ function main(el, service, imEntity, state, config) {
     });
 
   */
-	el.innerHTML = `
-		<div class="rootContainer">
-			<h1>Your Data Viz Here</h1>
-		</div>
-	`;
+	var graphType = 'Graph';
+	var iframeSrc =
+		'http://www.esyn.org/app.php?embedded=true&publishedid=249&type=';
+	var rootDiv = document.createElement('div');
+	rootDiv.className = 'rootContainer';
+
+	var iframe = document.createElement('iframe');
+	iframe.id = 'frame';
+	iframe.className = 'seamless';
+	iframe.scrolling = 'no';
+	iframe.style.width = '100%';
+	iframe.style.height = '97%';
+	iframe.src = iframeSrc + graphType;
+	rootDiv.appendChild(iframe);
+
+	document.getElementById('yourDiv').appendChild(rootDiv);
 }
 
 module.exports = { main };
