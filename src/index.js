@@ -1,58 +1,54 @@
-// add any imports if needed, or write your script directly in this file.
-// const SomePackage = require('PackageName');
+const queryData = require('./query');
 
-// make sure to export main, with the signature
 function main(el, service, imEntity, state, config) {
 	if (!state) state = {};
 	if (!el || !service || !imEntity || !state || !config) {
 		throw new Error('Call main with correct signature');
 	}
-	// sample code here to convert the provided intermine object (e.g. perhaps
-	// an id) into an identifier the tool expects. e.g.:
-	// of course if your tool was built for intermine it might understand
-	// intermine ids already, but many others tools expect a gene symbol or
-	// protein accession, etc...
-	/**
-   * Example - you can delete this and replace with your own code *******
 
-    // protVista expects an accession, so convert intermine id to accession
+	let organismID = '',
+		symbol = '';
+	queryData(imEntity.Gene.value, service.root)
+		.then(data => {
+			if (data.length) organismID = data[0].organism.taxonId;
+			symbol = data.reduce(
+				(prevVal, currVal, idx) =>
+					idx == 0 ? currVal.symbol : prevVal + '|' + currVal.symbol,
+				''
+			);
+		})
+		.then(() => {
+			let graphType = 'Graph';
+			const iframeSrc = `http://www.esyn.org/app.php?embedded=true&query=${symbol}&organism=${organismID}&includeInteractors=false&source=biogrid&type=`;
+			const rootDiv = document.createElement('div');
+			rootDiv.className = 'rootContainer';
 
-    var entity = imEntity.Protein;
+			const iframe = document.createElement('iframe');
+			iframe.id = 'frame';
+			iframe.className = 'seamless';
+			iframe.scrolling = 'no';
+			iframe.style.width = '100%';
+			iframe.style.height = '97%';
+			iframe.src = iframeSrc + graphType;
+			rootDiv.appendChild(iframe);
 
-    var columnToConvert = config.columnMapping[entity.class][entity.format];
-    var accession = new imjs.Service(service)
-        .findById(entity.class, entity.value)
-        .then(function(response) {
-        //put some code here to initialise your tool.
-    });
+			const button = document.createElement('button');
+			button.innerHTML = 'Change Graph Type';
 
-  */
-	let graphType = 'Graph';
-	const iframeSrc =
-		'http://www.esyn.org/app.php?embedded=true&publishedid=249&type=';
-	const rootDiv = document.createElement('div');
-	rootDiv.className = 'rootContainer';
+			rootDiv.appendChild(button);
 
-	const iframe = document.createElement('iframe');
-	iframe.id = 'frame';
-	iframe.className = 'seamless';
-	iframe.scrolling = 'no';
-	iframe.style.width = '100%';
-	iframe.style.height = '97%';
-	iframe.src = iframeSrc + graphType;
-	rootDiv.appendChild(iframe);
-
-	const button = document.createElement('button');
-	button.innerHTML = 'Change Graph Type';
-
-	rootDiv.appendChild(button);
-
-	button.addEventListener('click', function() {
-		graphType = graphType == 'Graph' ? 'PetriNet' : 'Graph';
-		document.getElementById('frame').src = iframeSrc + graphType;
-	});
-
-	document.getElementById('yourDiv').appendChild(rootDiv);
+			button.addEventListener('click', function() {
+				graphType = graphType == 'Graph' ? 'PetriNet' : 'Graph';
+				document.getElementById('frame').src = iframeSrc + graphType;
+			});
+			document.getElementById('yourDiv').appendChild(rootDiv);
+		})
+		.catch(() => {
+			const rootDiv = document.createElement('h1');
+			rootDiv.className = 'rootContainer';
+			rootDiv.innerText = 'Something went wrong!';
+			document.getElementById('yourDiv').appendChild(rootDiv);
+		});
 }
 
 module.exports = { main };
