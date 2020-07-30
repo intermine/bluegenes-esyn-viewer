@@ -18,8 +18,7 @@ function main(el, service, imEntity, state, config) {
 			);
 		})
 		.then(() => {
-			let graphType = 'Graph';
-			const iframeSrc = `http://www.esyn.org/app.php?embedded=true&query=${symbol}&organism=${organismID}&includeInteractors=false&source=biogrid&type=`;
+			const iframeSrc = `http://www.esyn.org/app.php?embedded=true&query=${symbol}&organism=${organismID}&includeInteractors=false&source=biogrid`;
 			const rootDiv = document.createElement('div');
 			rootDiv.className = 'rootContainer';
 
@@ -29,18 +28,8 @@ function main(el, service, imEntity, state, config) {
 			iframe.scrolling = 'no';
 			iframe.style.width = '100%';
 			iframe.style.height = '97%';
-			iframe.src = iframeSrc + graphType;
+			iframe.src = iframeSrc;
 			rootDiv.appendChild(iframe);
-
-			const button = document.createElement('button');
-			button.innerHTML = 'Change Graph Type';
-
-			rootDiv.appendChild(button);
-
-			button.addEventListener('click', function() {
-				graphType = graphType == 'Graph' ? 'PetriNet' : 'Graph';
-				document.getElementById('frame').src = iframeSrc + graphType;
-			});
 			document.getElementById('yourDiv').appendChild(rootDiv);
 		})
 		.catch(() => {
