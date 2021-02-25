@@ -22,7 +22,11 @@ function main(el, service, imEntity, state, config) {
 					idx == 0 ? currVal.symbol : prevVal + '|' + currVal.symbol,
 				''
 			);
-			const iframeSrc = `http://www.esyn.org/app.php?embedded=true&query=${symbol}&organism=${organismID}&includeInteractors=false&source=biogrid`;
+			const domain =
+				window.location.protocol === 'https:'
+					? 'https://esyn.rosalind.kcl.ac.uk'
+					: 'http://www.esyn.org';
+			const iframeSrc = `${domain}/app.php?embedded=true&query=${symbol}&organism=${organismID}&includeInteractors=false&source=biogrid`;
 			const rootDiv = document.createElement('div');
 			rootDiv.className = 'rootContainer';
 			const iframe = document.createElement('iframe');
