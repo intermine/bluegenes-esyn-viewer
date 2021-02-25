@@ -16,7 +16,7 @@
     "js" : "dist/bundle.js"
   },
   "toolName" : {
-    "human" :"Bluegenes ESYN Viewer",
+    "human" :"Bluegenes EsyN Viewer",
     "cljs" :"bluegenesEsynViewer"    
   },
   "version": 2
