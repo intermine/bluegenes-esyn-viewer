@@ -11,6 +11,7 @@
       "id": "primaryAccession"
     }
   },
+  "threshold": 100,
   "files" : {
     "css" : "dist/style.css",
     "js" : "dist/bundle.js"
