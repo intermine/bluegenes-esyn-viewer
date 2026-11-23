@@ -1,3 +1,15 @@
+> **DEPRECATED (November 2026). Do not install this tool, and remove it if you have it.**
+>
+> The esyN service that this tool embeds no longer exists. The address it loads, `esyn.org`, now belongs to
+> someone else and serves unrelated content. A BlueGenes that has this tool installed shows that content inside
+> its Gene pages.
+>
+> To remove it: on your BlueGenes server, delete the line `"@intermine/bluegenes-esyn-viewer"` from `tools.edn`,
+> delete the folder `@intermine/bluegenes-esyn-viewer` under the tools `node_modules` folder (or uninstall the tool
+> on the BlueGenes admin Tools page), and restart BlueGenes.
+>
+> This repository is archived.
+
 #  Bluegenes ESYN Viewer
 
 Bluegenes ESYN Viewer is a tool made for [BlueGenes](http://bluegenes.apps.intermine.org) following BlueGenes Tool API.
